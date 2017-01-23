@@ -1,0 +1,10 @@
+[Unit]
+Description=DIVA Target Device Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/diva-device
+
+[Install]
+WantedBy=multi-user.target
