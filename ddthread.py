@@ -31,6 +31,7 @@ class TargetThread(object):
 		self.sock.listen(1)
 		while True:
 			conn, addr = self.sock.accept()
+			self.conn = conn
 			print ("Connected from " + str(addr))
 			threading.Thread(target = self.recv_thread,args = (conn,addr)).start()
 
@@ -74,12 +75,13 @@ class TargetThread(object):
 			self.pid.terminate()
 
 		dest = self.user + "@" + self.host + ":/home/" + self.user + "/output/"
-		self._exec("scp device.txt " + dest, None)
+		os.system("scp device.txt " + dest)
 
 		# Send log file if created
 		if os.path.isfile("log.txt") is True:
-			self._exec("scp log.txt " + dest, None)
+			os.system("scp log.txt " + dest)
 
+		self.noti_completion("done")
 		print "Done!"
 
 	# Run dogtail and save output
@@ -102,6 +104,9 @@ class TargetThread(object):
 			self.pid = subprocess.Popen(out)
 		else:
 			self.pid = subprocess.Popen(out, stdout=f)
+
+	def noti_completion(self, msg):
+		self.conn.send(msg);
 
 def help():
 	print """
