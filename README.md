@@ -14,3 +14,8 @@ DIVA unit test on target board
 
 			     Send OS info &   ------>
 			     test log           scp
+
+## Features
+- Communicate with the diva-server
+- Run unit tests
+- Transfer device information (OS, kernel version) and test log to the diva-server
